@@ -2,48 +2,70 @@ const SOBEL_X = [
   [-1, 0, 1],
   [-2, 0, 2],
   [-1, 0, 1],
-]
+];
 
 const SOBEL_Y = [
   [-1, -2, -1],
   [0, 0, 0],
   [1, 2, 1],
-]
+];
 
-export function computePixel(
-  gray: number[][],
-  x: number,
-  y: number
-) {
+export interface Contribution {
+  pixel: number;
+  kernel: number;
+  result: number;
+}
 
-  const matrix: number[][] = []
+export function computePixel(gray: number[][], x: number, y: number) {
+  const matrix: number[][] = [];
 
-  let gx = 0
-  let gy = 0
+  const contributionsX: Contribution[] = [];
+  const contributionsY: Contribution[] = [];
+
+  let gx = 0;
+  let gy = 0;
 
   for (let ky = -1; ky <= 1; ky++) {
-
-    const row: number[] = []
+    const row: number[] = [];
 
     for (let kx = -1; kx <= 1; kx++) {
+      const pixel = gray[y + ky][x + kx];
 
-      const value = gray[y + ky][x + kx]
+      const kxVal = SOBEL_X[ky + 1][kx + 1];
+      const kyVal = SOBEL_Y[ky + 1][kx + 1];
 
-      gx += value * SOBEL_X[ky + 1][kx + 1]
-      gy += value * SOBEL_Y[ky + 1][kx + 1]
+      const contribX = pixel * kxVal;
+      const contribY = pixel * kyVal;
 
-      row.push(value)
+      gx += contribX;
+      gy += contribY;
+
+      contributionsX.push({
+        pixel,
+        kernel: kxVal,
+        result: contribX,
+      });
+
+      contributionsY.push({
+        pixel,
+        kernel: kyVal,
+        result: contribY,
+      });
+
+      row.push(pixel);
     }
 
-    matrix.push(row)
+    matrix.push(row);
   }
 
-  const magnitude = Math.sqrt(gx * gx + gy * gy)
+  const magnitude = Math.sqrt(gx * gx + gy * gy);
 
   return {
     matrix,
     gx,
     gy,
     magnitude,
-  }
+    contributionsX,
+    contributionsY,
+  };
 }

@@ -1,0 +1,32 @@
+.container {
+  margin-bottom: 28px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadButton {
+  padding: 10px 18px;
+
+  background: #2563eb;
+  color: white;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.uploadButton:hover {
+  background: #1d4ed8;
+}
+
+.uploadButton:active {
+  background: #1e40af;
+}

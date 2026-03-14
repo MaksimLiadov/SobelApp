@@ -1,9 +1,8 @@
 interface Props {
-  kernel: number[][]
+  kernel: number[][];
 }
 
 export const KernelView = ({ kernel }: Props) => {
-
   return (
     <div
       style={{
@@ -26,5 +25,5 @@ export const KernelView = ({ kernel }: Props) => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};

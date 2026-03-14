@@ -1,15 +1,10 @@
 interface Props {
-  title: string
-  description: string
-  children: React.ReactNode
+  title: string;
+  description: string;
+  children: React.ReactNode;
 }
 
-export const ExplanationBlock = ({
-  title,
-  description,
-  children,
-}: Props) => {
-
+export const ExplanationBlock = ({ title, description, children }: Props) => {
   return (
     <div
       style={{
@@ -20,7 +15,6 @@ export const ExplanationBlock = ({
         background: "#fafafa",
       }}
     >
-
       <h3>{title}</h3>
 
       <p
@@ -34,10 +28,7 @@ export const ExplanationBlock = ({
         {description}
       </p>
 
-      <div style={{ marginTop: 10 }}>
-        {children}
-      </div>
-
+      <div style={{ marginTop: 10 }}>{children}</div>
     </div>
-  )
-}
+  );
+};
