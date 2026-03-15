@@ -101,7 +101,7 @@ export const PixelInspector = ({
 
         <MatrixMultiplicationView
           matrix={matrix}
-          kernel={SOBEL_X}
+          kernel={SOBEL_Y}
           contributions={contributionsY.map((c) => c.result)}
         />
 
