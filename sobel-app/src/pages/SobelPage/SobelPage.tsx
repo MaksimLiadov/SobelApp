@@ -21,6 +21,9 @@ export const SobelPage = () => {
     x: number;
     y: number;
   } | null>(null);
+  const [threshold, setThreshold] = useState(0);
+  const [debouncedThreshold, setDebouncedThreshold] = useState(threshold);
+  const [sobelMatrix, setSobelMatrix] = useState<number[][] | null>(null);
 
   const grayImage = useMemo(() => {
     if (!original) return null;
@@ -33,13 +36,7 @@ export const SobelPage = () => {
 
       if (!original) return;
 
-      const image = sobelToImageData(
-        sobelMatrix,
-        original.width,
-        original.height,
-      );
-
-      setResult(image);
+      setSobelMatrix(sobelMatrix);
     };
 
     worker.addEventListener("message", handleMessage);
@@ -47,7 +44,28 @@ export const SobelPage = () => {
     return () => {
       worker.removeEventListener("message", handleMessage);
     };
-  }, [original, setResult]);
+  }, [original]);
+
+  useEffect(() => {
+    if (!sobelMatrix || !original) return;
+
+    const image = sobelToImageData(
+      sobelMatrix,
+      original.width,
+      original.height,
+      debouncedThreshold,
+    );
+
+    setResult(image);
+  }, [sobelMatrix, debouncedThreshold]);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setDebouncedThreshold(threshold);
+    }, 150);
+
+    return () => clearTimeout(id);
+  }, [threshold]);
 
   const handleLoad = (img: HTMLImageElement) => {
     const canvas = document.createElement("canvas");
@@ -93,7 +111,7 @@ export const SobelPage = () => {
 
   return (
     <div className={"page"}>
-      <h1 className={"title"}>Вычесление контура Собеля</h1>
+      <h1 className={"title"}>Вычисление контура Собеля</h1>
 
       <div className={"actions"}>
         <ImageUploader onLoad={handleLoad} />
@@ -103,6 +121,18 @@ export const SobelPage = () => {
             Удалить изображение
           </button>
         )}
+        <div className="threshold">
+          <span>Порог отображения контура:</span>
+          <span className="thresholdValue">{threshold}</span>
+
+          <input
+            type="range"
+            min={0}
+            max={255}
+            value={threshold}
+            onChange={(e) => setThreshold(Number(e.target.value))}
+          />
+        </div>
       </div>
 
       <div className={"container"}>

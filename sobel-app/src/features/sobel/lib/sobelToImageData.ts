@@ -2,6 +2,7 @@ export function sobelToImageData(
   sobel: number[][],
   width: number,
   height: number,
+  threshold: number,
 ): ImageData {
   const imageData = new ImageData(width, height);
 
@@ -9,7 +10,8 @@ export function sobelToImageData(
     for (let x = 0; x < width; x++) {
       const index = (y * width + x) * 4;
 
-      const value = Math.min(255, sobel[y][x]);
+      const raw = sobel[y][x];
+      const value = raw < threshold ? 0 : Math.min(255, raw);
 
       imageData.data[index] = value;
       imageData.data[index + 1] = value;

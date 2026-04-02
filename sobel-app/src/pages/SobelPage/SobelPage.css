@@ -87,3 +87,24 @@
 
   font-size: 14px;
 }
+
+.threshold {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.thresholdValue {
+  width: 25px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 14px;
+  color: #6b7280;
+}
