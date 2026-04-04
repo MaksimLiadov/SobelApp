@@ -15,16 +15,26 @@ import { PixelInspector } from "../../features/sobel/ui/PixelInspector/PixelInsp
 import "./SobelPage.css";
 
 export const SobelPage = () => {
-  const { original, result, setOriginal, setResult, reset } = useSobelStore();
+  const {
+    original,
+    result,
+    threshold,
+    sobelMatrix,
+    setOriginal,
+    setResult,
+    reset,
+    setThreshold,
+    setSobelMatrix,
+  } = useSobelStore();
 
   const [inspector, setInspector] = useState<any>(null);
   const [selectedPixel, setSelectedPixel] = useState<{
     x: number;
     y: number;
   } | null>(null);
-  const [threshold, setThreshold] = useState(0);
-  const [debouncedThreshold, setDebouncedThreshold] = useState(threshold);
-  const [sobelMatrix, setSobelMatrix] = useState<number[][] | null>(null);
+  const [debouncedThreshold, setDebouncedThreshold] = useState(
+    threshold as number,
+  );
 
   const grayImage = useMemo(() => {
     if (!original) return null;
@@ -62,7 +72,7 @@ export const SobelPage = () => {
 
   useEffect(() => {
     const id = setTimeout(() => {
-      setDebouncedThreshold(threshold);
+      setDebouncedThreshold(threshold as number);
     }, 150);
 
     return () => clearTimeout(id);
