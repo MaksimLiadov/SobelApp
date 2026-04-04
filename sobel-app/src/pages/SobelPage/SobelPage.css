@@ -108,3 +108,43 @@
   font-size: 14px;
   color: #6b7280;
 }
+
+.topBar{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between
+}
+
+.theoryLink {
+  display: inline-block;
+  margin-left: 12px;
+  padding: 6px 12px;
+
+  text-decoration: none;
+  color: #fff;
+  background-color: #2563eb;
+
+  border-radius: 6px;
+  border: 1px solid #2563eb;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theoryLink:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.theoryLink:active {
+  transform: scale(0.97);
+}
+
+.theoryLink:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}

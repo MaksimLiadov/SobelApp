@@ -1,10 +1,10 @@
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   children: React.ReactNode;
 }
 
-export const ExplanationBlock = ({ title, description, children }: Props) => {
+export const ExplanationBlock = ({ title, children, description }: Props) => {
   return (
     <div
       style={{

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 import worker from "../../features/sobel/lib/sobelWorker";
 import { sobelToImageData } from "../../features/sobel/lib/sobelToImageData";
@@ -111,7 +112,12 @@ export const SobelPage = () => {
 
   return (
     <div className={"page"}>
-      <h1 className={"title"}>Вычисление контура Собеля</h1>
+      <div className={"topBar"}>
+        <h1>Вычисление контура Собеля</h1>
+        <Link to="/theory" className="theoryLink">
+          Теория
+        </Link>
+      </div>
 
       <div className={"actions"}>
         <ImageUploader onLoad={handleLoad} />
