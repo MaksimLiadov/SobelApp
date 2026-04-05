@@ -58,7 +58,9 @@ export function computePixel(gray: number[][], x: number, y: number) {
     matrix.push(row);
   }
 
-  const magnitude = Math.sqrt(gx * gx + gy * gy);
+  gx = Math.round(gx);
+  gy = Math.round(gy);
+  const magnitude = Math.round(Math.sqrt(gx * gx + gy * gy));
 
   return {
     matrix,

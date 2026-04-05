@@ -43,6 +43,7 @@
 
   color: #6b7280;
   font-size: 14px;
+  font-family: system-ui, sans-serif;
 
   background: #f9fafb;
 }
@@ -116,7 +117,7 @@
   justify-content: space-between
 }
 
-.theoryLink {
+.button {
   display: inline-block;
   margin-left: 12px;
   padding: 6px 12px;
@@ -130,21 +131,22 @@
 
   font-size: 14px;
   font-weight: 500;
+  font-family: system-ui, sans-serif;
 
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.theoryLink:hover {
+.button:hover {
   background-color: #1d4ed8;
   border-color: #1d4ed8;
 }
 
-.theoryLink:active {
+.button:active {
   transform: scale(0.97);
 }
 
-.theoryLink:focus {
+.button:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
 }

@@ -33,11 +33,11 @@ export const MatrixMultiplicationView = ({
                 fontFamily: "monospace",
               }}
             >
-              <div>{pixel.toFixed(2)}</div>
+              <div>{pixel}</div>
 
-              <div style={{ color: "#6b7280" }}>× {kernelValue.toFixed(2)}</div>
+              <div style={{ color: "#6b7280" }}>× {kernelValue}</div>
 
-              <div style={{ fontWeight: 600 }}>= {result.toFixed(2)}</div>
+              <div style={{ fontWeight: 600 }}>= {result}</div>
             </div>
           );
         })}
@@ -47,7 +47,7 @@ export const MatrixMultiplicationView = ({
         <strong>Сумма вкладов:</strong>
 
         <div style={{ marginTop: 6 }}>
-          {contributions.map((v) => v.toFixed(2)).join(" + ")}
+          {contributions.map((v) => (v < 0 ? `(${v})` : `${v}`)).join(" + ")}
         </div>
       </div>
     </div>

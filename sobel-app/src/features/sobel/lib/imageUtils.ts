@@ -16,7 +16,7 @@ export function imageDataToGray(data: ImageData): number[][] {
 
       const value = 0.299 * r + 0.587 * g + 0.114 * b
 
-      row.push(value)
+      row.push(Math.round(value))
     }
 
     gray.push(row)

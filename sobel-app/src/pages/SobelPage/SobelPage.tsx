@@ -35,6 +35,7 @@ export const SobelPage = () => {
   const [debouncedThreshold, setDebouncedThreshold] = useState(
     threshold as number,
   );
+  const [demoModalVisible, setDemoModalVisible] = useState(false);
 
   const grayImage = useMemo(() => {
     if (!original) return null;
@@ -78,6 +79,21 @@ export const SobelPage = () => {
     return () => clearTimeout(id);
   }, [threshold]);
 
+  const demoImages = [
+    "/public/demo1.jpg",
+    "/public/demo2.jpg",
+    "/public/demo3.jpg",
+  ];
+
+  const handleDemoSelect = (src: string) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      handleLoad(img);
+      setDemoModalVisible(false);
+    };
+  };
+
   const handleLoad = (img: HTMLImageElement) => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d")!;
@@ -112,6 +128,24 @@ export const SobelPage = () => {
     setInspector(pixel);
   };
 
+  useEffect(() => {
+    if (!selectedPixel || !grayImage) return;
+
+    const { x, y } = selectedPixel;
+
+    if (
+      x <= 0 ||
+      y <= 0 ||
+      x >= grayImage[0].length - 1 ||
+      y >= grayImage.length - 1
+    )
+      return;
+
+    const pixel = computePixel(grayImage, x, y);
+
+    setInspector(pixel);
+  }, [debouncedThreshold, selectedPixel, grayImage]);
+
   const handleRemoveImage = () => {
     reset();
 
@@ -124,9 +158,15 @@ export const SobelPage = () => {
     <div className={"page"}>
       <div className={"topBar"}>
         <h1>Вычисление контура Собеля</h1>
-        <Link to="/theory" className="theoryLink">
-          Теория
-        </Link>
+
+        <div>
+          <button className="button" onClick={() => setDemoModalVisible(true)}>
+            Демо
+          </button>
+          <Link to="/theory" className="button">
+            Теория
+          </Link>
+        </div>
       </div>
 
       <div className={"actions"}>
@@ -202,7 +242,71 @@ export const SobelPage = () => {
           magnitude={inspector.magnitude}
           contributionsX={inspector.contributionsX}
           contributionsY={inspector.contributionsY}
+          original={original as ImageData}
+          resultImg={result as ImageData}
+          selectedPixel={selectedPixel}
+          grayImage={grayImage}
         />
+      )}
+
+      {demoModalVisible && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+          }}
+        >
+          <div
+            style={{
+              position: "relative",
+              background: "#fff",
+              padding: 20,
+              borderRadius: 8,
+              display: "flex",
+              gap: 10,
+              flexDirection: "column",
+              alignItems: "center",
+              width: 800,
+              height: 400,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 10,
+                cursor: "pointer",
+                fontSize: 28,
+                fontWeight: "bold",
+              }}
+              onClick={() => setDemoModalVisible(false)}
+            >
+              ×
+            </div>
+
+            <h3>Выберите картинку</h3>
+
+            <div style={{ display: "flex", gap: 10 }}>
+              {demoImages.map((src) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt="demo"
+                  style={{ width: 250, cursor: "pointer", borderRadius: 4 }}
+                  onClick={() => handleDemoSelect(src)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
